@@ -77,7 +77,7 @@ public class SignupController {
             httpSession.setAttribute(LOGGED_IN_KEY, true);
             return "redirect:/admin";
         } else {
-            return "redirect:/login"; // TODO show revealing error 
+            return "error: name was not admin or password was not aluminum >:(";
         }
     }
 
