@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Admin page</title>
+    </head>
+    <body>
+
+        <h1>Welcome Admin!</h1>
+        <p>Sign up list:</p>
+
+        <ul>
+            <li th:each="signup : ${signups}" th:text="${signup.name}, ${signup.address}">name and address</li>
+        </ul>
+
+        <p></p>
+    </body>
+</html>

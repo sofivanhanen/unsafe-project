@@ -14,9 +14,9 @@ public class SignupController {
     @Autowired
     private SignupRepository signupRepository;
 
-    @RequestMapping("*")
+    @RequestMapping(value = "/")
     public String defaultMapping() {
-        return "redirect:/form";
+        return "default";
     }
 
     @RequestMapping(value = "/form", method = RequestMethod.GET)
@@ -29,5 +29,21 @@ public class SignupController {
         signupRepository.save(new Signup(name, address));
         return "done";
     }
-
+    
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loadLogin() {
+        return "login";
+    }
+    
+    @RequestMapping(value = "/loginGuest", method = RequestMethod.POST)
+    public String submitLogin(@RequestParam String name) {
+        // TODO validate login and show guest-specific data
+        return "welcome";
+    }
+    
+    @RequestMapping(value = "/loginAdmin", method = RequestMethod.POST)
+    public String submitLogin(@RequestParam String name, @RequestParam String password) {
+        // TODO validate login and show all who signed up
+        return "admin";
+    }
 }
