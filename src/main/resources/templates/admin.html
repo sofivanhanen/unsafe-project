@@ -12,6 +12,8 @@
             <li th:each="signup : ${signups}">Name: <span th:text="${signup.name}">namehere</span>, address: <span th:text="${signup.address}">addresshere</span></li>
         </ul>
 
-        <p></p>
+        <p>When festival is over, clear the database to prepare for the next epic festival</p>
+        <form th:action="@{/admin}" th:method="DELETE"><input type="submit" value="Clear"/></form>
+        
     </body>
 </html>

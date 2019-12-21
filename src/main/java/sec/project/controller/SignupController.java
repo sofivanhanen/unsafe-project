@@ -12,8 +12,9 @@ import sec.project.repository.SignupRepository;
 
 @Controller
 public class SignupController {
-    
+
     private static final String GUEST_NAME_KEY = "guest-name";
+    private static final String LOGGED_IN_KEY = "logged";
 
     @Autowired
     private SignupRepository signupRepository;
@@ -35,49 +36,67 @@ public class SignupController {
         signupRepository.save(new Signup(name, address));
         return "done";
     }
-    
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loadLogin() {
         return "login";
     }
-    
+
     @RequestMapping(value = "/loginGuest", method = RequestMethod.POST)
     public String submitLogin(@RequestParam String name) {
         for (Signup signup : signupRepository.findAll()) {
             if (signup.getName().equals(name)) {
                 httpSession.setAttribute(GUEST_NAME_KEY, name);
+                httpSession.setAttribute(LOGGED_IN_KEY, true);
                 return "redirect:/welcome";
             }
         }
         return "redirect:/login";
     }
-    
+
     @RequestMapping(value = "/welcome", method = RequestMethod.GET)
     public String loadWelcome(Model model) {
         try {
             String name = (String) httpSession.getAttribute(GUEST_NAME_KEY);
             for (Signup signup : signupRepository.findAll()) {
                 if (signup.getName().equals(name)) {
-                    model.addAttribute("name", name);   
+                    model.addAttribute("name", name);
                     model.addAttribute("address", signup.getAddress());
                     return "welcome";
                 }
             }
         } catch (Exception e) {
         }
-        
+
         return "redirect:/login";
     }
-    
+
     @RequestMapping(value = "/loginAdmin", method = RequestMethod.POST)
     public String submitLogin(@RequestParam String name, @RequestParam String password) {
-        if (name.equals("admin") && password.equals("aluminum")) return "redirect:/admin";
-        else return "redirect:/login"; // TODO show revealing error 
+        if (name.equals("admin") && password.equals("aluminum")) {
+            httpSession.setAttribute(LOGGED_IN_KEY, true);
+            return "redirect:/admin";
+        } else {
+            return "redirect:/login"; // TODO show revealing error 
+        }
     }
-    
+
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public String loadAdmin(Model model) {
         model.addAttribute("signups", signupRepository.findAll());
         return "admin";
+    }
+
+    @RequestMapping(value = "/admin", method = RequestMethod.DELETE)
+    public String deleteAdmin() {
+        try {
+            if ((boolean)httpSession.getAttribute(LOGGED_IN_KEY)) {
+                signupRepository.deleteAll();
+                return "redirect:/admin";
+            }
+        }
+        catch (Exception e) {
+        }
+        return "redirect:/login";
     }
 }
