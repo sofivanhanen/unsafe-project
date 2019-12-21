@@ -9,7 +9,7 @@
         <p>Sign up list:</p>
 
         <ul>
-            <li th:each="signup : ${signups}" th:text="${signup.name}, ${signup.address}">name and address</li>
+            <li th:each="signup : ${signups}">Name: <span th:text="${signup.name}">namehere</span>, address: <span th:text="${signup.address}">addresshere</span></li>
         </ul>
 
         <p></p>

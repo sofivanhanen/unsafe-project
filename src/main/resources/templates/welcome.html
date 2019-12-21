@@ -6,7 +6,10 @@
     <body>
 
         <h1>Fab Festival guest view</h1>
-        <p>Your address and ticket status will show here.</p>
+        <p>Your information:</p>
+        <p th:text="${name}">Name</p>
+        <p th:text="${address}">Address</p>
+        <p>Ticket status: Not yet mailed</p>
 
     </body>
 </html>
