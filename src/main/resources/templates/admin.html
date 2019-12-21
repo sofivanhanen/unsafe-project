@@ -9,7 +9,7 @@
         <p>Sign up list:</p>
 
         <ul>
-            <li th:each="signup : ${signups}">Name: <span th:text="${signup.name}">namehere</span>, address: <span th:text="${signup.address}">addresshere</span></li>
+            <li th:each="signup : ${signups}">Name: <span th:utext="${signup.name}">namehere</span>, address: <span th:utext="${signup.address}">addresshere</span></li>
         </ul>
 
         <p>When festival is over, clear the database to prepare for the next epic festival</p>
